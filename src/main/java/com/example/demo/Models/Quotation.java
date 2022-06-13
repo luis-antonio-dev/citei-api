@@ -3,7 +3,7 @@ package com.example.demo.Models;
 import javax.persistence.*;
 
 @Entity
-public class Cotation {
+public class Quotation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,7 +12,7 @@ public class Cotation {
 
     @ManyToOne
     @JoinColumn(name="id_source")
-    private Source source;
+    private Source sourceModel;
 
     public long getId() {
         return id;
@@ -31,10 +31,10 @@ public class Cotation {
     }
 
     public Source getSource() {
-        return source;
+        return sourceModel;
     }
 
-    public void setSource(Source source) {
-        this.source = source;
+    public void setSource(Source sourceModel) {
+        this.sourceModel = sourceModel;
     }
 }

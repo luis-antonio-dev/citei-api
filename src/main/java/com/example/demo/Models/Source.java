@@ -7,14 +7,14 @@ public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(name="title")
     private String title;
+    @Column(name="subTitle")
     private String subTitle;
+    @Column(name="coverImage")
     private String coverImage;
+    @Column(name="author")
     private String author;
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id_endereco")
-//    private Endereco endereco;
-
 
     public long getId() {
         return id;
