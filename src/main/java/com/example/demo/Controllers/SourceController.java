@@ -58,7 +58,9 @@ public class SourceController {
 
     @DeleteMapping("/source/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
-        sourceRepository.deleteById(id);
+        Optional<Source> sourceFounded = sourceRepository.findById(id);
+
+        if(!sourceFounded.isPresent()) return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
