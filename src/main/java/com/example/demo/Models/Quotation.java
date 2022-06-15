@@ -13,7 +13,7 @@ public class Quotation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotNull
+    @NotNull(message = "content cannot be null")
     @NotEmpty(message = "Please, field 'content' cannot be empty")
     @Length(min=4, max=512)
     private String content;

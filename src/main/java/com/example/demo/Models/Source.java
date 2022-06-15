@@ -11,25 +11,26 @@ public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @NotNull
+
+    @NotNull(message = "Title cannot be null")
     @NotEmpty(message = "Please, field 'title' cannot be empty")
-    @Length(min=4, max=256)
+    @Length(min=4, max=256, message = "Title should be beteween 4 and 256")
     @Column(name="title")
     private String title;
 
-    @NotNull
+    @NotNull(message = "Sub title cannot be null")
     @NotEmpty(message = "Please, field 'sub title' cannot be empty")
     @Length(min=4, max=256)
     @Column(name="subTitle")
     private String subTitle;
 
-    @NotNull
+    @NotNull(message = "image cannot be null")
     @NotEmpty(message = "Please, field 'image' cannot be empty")
     @Length(min=10, max=2000)
     @Column(name="coverImage")
     private String coverImage;
 
-    @NotNull
+    @NotNull(message = "author cannot be null")
     @NotEmpty(message = "Please, field 'author' cannot be empty")
     @Length(min=4, max=256)
     @Column(name="author")
