@@ -14,7 +14,7 @@ public class Quotation {
     private long id;
 
     @NotNull
-    @NotEmpty(message = "Please, field 'title' cannot be empty")
+    @NotEmpty(message = "Please, field 'content' cannot be empty")
     @Length(min=4, max=512)
     private String content;
 
