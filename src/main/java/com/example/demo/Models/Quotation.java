@@ -18,6 +18,7 @@ public class Quotation {
     @Length(min=4, max=512)
     private String content;
 
+    @NotNull(message = "Quotation should be has a source")
     @ManyToOne
     @JoinColumn(name="id_source")
     private Source sourceModel;
