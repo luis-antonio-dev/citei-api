@@ -1,18 +1,37 @@
 package com.example.demo.Models;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotNull
+    @NotEmpty(message = "Please, field 'title' cannot be empty")
+    @Length(min=4, max=256)
     @Column(name="title")
     private String title;
+
+    @NotNull
+    @NotEmpty
+    @Length(min=4, max=256)
     @Column(name="subTitle")
     private String subTitle;
+
+    @NotNull
+    @NotEmpty
+    @Length(min=10, max=2000)
     @Column(name="coverImage")
     private String coverImage;
+
+    @NotNull
+    @NotEmpty
+    @Length(min=4, max=256)
     @Column(name="author")
     private String author;
 

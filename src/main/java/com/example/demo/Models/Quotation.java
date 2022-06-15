@@ -1,6 +1,10 @@
 package com.example.demo.Models;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Quotation {
@@ -8,6 +12,10 @@ public class Quotation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @NotNull
+    @NotEmpty(message = "Please, field 'title' cannot be empty")
+    @Length(min=4, max=512)
     private String content;
 
     @ManyToOne
