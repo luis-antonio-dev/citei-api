@@ -55,4 +55,11 @@ public class SourceController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/source/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
+        sourceRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
