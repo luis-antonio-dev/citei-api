@@ -26,7 +26,7 @@ public class SourceController {
             return new ResponseEntity<>(errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage), HttpStatus.BAD_REQUEST);
 
         sourceRepository.save(sourceModel);
-        return new ResponseEntity<>(sourceModel, HttpStatus.OK);
+        return new ResponseEntity<>(sourceModel, HttpStatus.CREATED);
     }
 
     @GetMapping("/source")
