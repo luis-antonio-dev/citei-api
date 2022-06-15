@@ -11,9 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -63,5 +61,11 @@ public class SourceController {
         if(!sourceFounded.isPresent()) return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/source", params = "title")
+    public ResponseEntity<?> findByName(@RequestParam(required=true) String title) {
+        Iterable<Source> sources = sourceRepository.findByTitle(title);
+        return new ResponseEntity<>(sources, HttpStatus.OK);
     }
 }
