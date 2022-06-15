@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,5 +35,24 @@ public class SourceController {
     public ResponseEntity<Iterable<Source>> list() {
         Iterable<Source> sources = sourceRepository.findAll();
         return new ResponseEntity<>(sources, HttpStatus.OK);
+    }
+
+    @GetMapping("/source/{id}")
+    public ResponseEntity<?> show(@PathVariable(name = "id") long id) {
+        Optional<Source> source = sourceRepository.findById(id);
+
+        if(!source.isPresent()) return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(source, HttpStatus.OK);
+    }
+
+    @PutMapping("/source/{id}")
+    public ResponseEntity<?> update(@Valid Source source, @PathVariable(name = "id") long id, BindingResult errors) {
+        if(errors.hasErrors())
+            return new ResponseEntity<>(errors.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage), HttpStatus.BAD_REQUEST);
+
+        sourceRepository.save(source);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
