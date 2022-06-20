@@ -10,5 +10,6 @@ Desenvolver um aplicativo que permita o usuário guardar as citações dos conte
 [Figma](https://www.figma.com/file/fj6Ya9rlaIoKFM4hwWgvpq/Citei?node-id=8%3A20)
 
 ## Endpoints da apliação
-Para consumir os endpoints da aplicação baixe o arquivo postman_collections no link a seguir e importe dentro do [Postman](https://www.postman.com/)
+Para consumir os endpoints da aplicação baixe o arquivo postman_collections no link a seguir e importe dentro do [Postman](https://www.postman.com/).
+
 [Postman_Collections](https://drive.google.com/file/d/1EGXIIL6spSuQab-Qyb2DdDOTARf-JouC/view?usp=sharing)
