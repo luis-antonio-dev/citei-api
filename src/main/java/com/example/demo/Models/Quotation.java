@@ -1,6 +1,6 @@
 package com.example.demo.Models;
 
-import com.example.demo.DTOs.QuotationDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -22,7 +22,8 @@ public class Quotation {
     @NotNull(message = "Quotation should be has a source")
     @ManyToOne
     @JoinColumn(name="id_source")
-    private Source sourceModel;
+    @JsonBackReference
+    private Source source;
 
     public long getId() {
         return id;
@@ -41,10 +42,10 @@ public class Quotation {
     }
 
     public Source getSource() {
-        return sourceModel;
+        return source;
     }
 
     public void setSource(Source sourceModel) {
-        this.sourceModel = sourceModel;
+        this.source = sourceModel;
     }
 }

@@ -1,10 +1,12 @@
 package com.example.demo.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Source {
@@ -35,6 +37,18 @@ public class Source {
     @Length(min=4, max=256)
     @Column(name="author")
     private String author;
+
+    @OneToMany(mappedBy = "source")
+    @JsonManagedReference
+    private List<Quotation> quotations;
+
+    public List<Quotation> getQuotations() {
+        return quotations;
+    }
+
+    public void setQuotations(List<Quotation> quotations) {
+        this.quotations = quotations;
+    }
 
     public long getId() {
         return id;

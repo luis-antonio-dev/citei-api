@@ -45,10 +45,14 @@ public class QuotationController {
         return new ResponseEntity<>(quotationSaved, HttpStatus.CREATED);
     }
 
-    @GetMapping("/quotation")
-    public ResponseEntity<?> index() {
-        Iterable<Quotation> quotations = quotationRepository.findAll();
-        return new ResponseEntity<>(quotations, HttpStatus.OK);
+    @GetMapping(value="/quotation", params = "id_source")
+    public ResponseEntity<?> index(@RequestParam(required=false) long id_source) {
+        Optional<Source> foundSource = sourceRepository.findById(id_source);
+
+        if(!foundSource.isPresent()) return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
+
+        Source source = foundSource.get();
+        return new ResponseEntity<>(source.getQuotations(), HttpStatus.OK);
     }
 
     @PutMapping(value = "/quotation/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
