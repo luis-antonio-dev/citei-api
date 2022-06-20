@@ -34,13 +34,13 @@ public class QuotationController {
         if(quotationDTO.getId_source() == 0)
             return new ResponseEntity<>(Collections.singletonList("Quotation should be have a source"), HttpStatus.BAD_REQUEST);;
 
-        Optional<Source> source = sourceRepository.findById(quotationDTO.getId_source());
-
-        if(!source.isPresent()) return new ResponseEntity<>(Collections.singletonList("The source is not found"), HttpStatus.NOT_FOUND);
-
         Quotation quotation = new Quotation();
         quotation.setContent(quotationDTO.getContent());
-        quotation.setSource(source.get());
+
+        // TODO: mover esse código para dentro do construtor (que será criado) de Quotation
+        Source source = new Source();
+        source.setId(quotationDTO.getId_source());
+        quotation.setSource(source);
 
         Quotation quotationSaved = quotationRepository.save(quotation);
 

@@ -1,5 +1,6 @@
 package com.example.demo.Models;
 
+import com.example.demo.DTOs.QuotationDTO;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
