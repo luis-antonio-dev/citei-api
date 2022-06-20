@@ -47,10 +47,10 @@ public class QuotationController {
     }
 
     @GetMapping(value="/quotation")
-    public ResponseEntity<?> index(@RequestParam(required=false) Optional<Long> id_source, @RequestParam(required=false) String content) {
-        if(!id_source.isPresent() && content.isEmpty()) return new ResponseEntity<>(quotationRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> index(@RequestParam(required=false) Optional<Long> id_source, @RequestParam(required=false) Optional<String> content) {
+        if(!id_source.isPresent() && !content.isPresent()) return new ResponseEntity<>(quotationRepository.findAll(), HttpStatus.OK);
 
-        if(id_source.isPresent() && content.isEmpty()) {
+        if(id_source.isPresent() && !content.isPresent()) {
             Optional<Source> foundSource = sourceRepository.findById(id_source.get());
 
             if (!foundSource.isPresent())
@@ -60,8 +60,12 @@ public class QuotationController {
             return new ResponseEntity<>(source.getQuotations(), HttpStatus.OK);
         }
 
-        Iterable<Quotation> quotations = quotationRepository.findByContentLike(content);
-        return new ResponseEntity<>(quotations, HttpStatus.OK);
+        if(!id_source.isPresent()) {
+            Iterable<Quotation> quotations = quotationRepository.findByContentLike(content.get());
+            return new ResponseEntity<>(quotations, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(quotationRepository.findBySourceAndContent(id_source.get(), content.get()), HttpStatus.OK);
     }
 
     @PutMapping(value = "/quotation/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

@@ -11,4 +11,7 @@ import java.util.List;
 public interface QuotationRepository extends CrudRepository<Quotation, Long> {
     @Query("SELECT q FROM Quotation q WHERE q.content LIKE CONCAT('%',:content,'%')")
     Iterable<Quotation> findByContentLike(@Param("content") String content);
+
+    @Query("SELECT q FROM Quotation q WHERE q.source.id = :source_id AND q.content LIKE CONCAT('%',:content,'%')")
+    Iterable<Quotation> findBySourceAndContent(@Param("source_id") long source_id, @Param("content") String content);
 }
