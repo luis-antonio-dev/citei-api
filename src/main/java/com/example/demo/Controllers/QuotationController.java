@@ -70,4 +70,10 @@ public class QuotationController {
 
         return new ResponseEntity<>(quotationSaved, HttpStatus.OK);
     }
+
+    @DeleteMapping("/quotation/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
+        quotationRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
