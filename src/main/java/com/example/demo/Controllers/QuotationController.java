@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Optional;
@@ -45,14 +46,22 @@ public class QuotationController {
         return new ResponseEntity<>(quotationSaved, HttpStatus.CREATED);
     }
 
-    @GetMapping(value="/quotation", params = "id_source")
-    public ResponseEntity<?> index(@RequestParam(required=false) long id_source) {
-        Optional<Source> foundSource = sourceRepository.findById(id_source);
+    @GetMapping(value="/quotation")
+    public ResponseEntity<?> index(@RequestParam(required=false) Optional<Long> id_source, @RequestParam(required=false) String content) {
+        if(!id_source.isPresent() && content.isEmpty()) return new ResponseEntity<>(quotationRepository.findAll(), HttpStatus.OK);
 
-        if(!foundSource.isPresent()) return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
+        if(id_source.isPresent() && content.isEmpty()) {
+            Optional<Source> foundSource = sourceRepository.findById(id_source.get());
 
-        Source source = foundSource.get();
-        return new ResponseEntity<>(source.getQuotations(), HttpStatus.OK);
+            if (!foundSource.isPresent())
+                return new ResponseEntity<>(Collections.singletonList("Source not found"), HttpStatus.NOT_FOUND);
+
+            Source source = foundSource.get();
+            return new ResponseEntity<>(source.getQuotations(), HttpStatus.OK);
+        }
+
+        Iterable<Quotation> quotations = quotationRepository.findByContentLike(content);
+        return new ResponseEntity<>(quotations, HttpStatus.OK);
     }
 
     @PutMapping(value = "/quotation/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
