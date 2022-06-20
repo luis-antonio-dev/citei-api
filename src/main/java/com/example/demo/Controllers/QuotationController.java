@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,5 +46,11 @@ public class QuotationController {
         Quotation quotationSaved = quotationRepository.save(quotation);
 
         return new ResponseEntity<>(quotationSaved, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/quotation")
+    public ResponseEntity<?> index() {
+        Iterable<Quotation> quotations = quotationRepository.findAll();
+        return new ResponseEntity<Iterable<Quotation>>(quotations, HttpStatus.OK);
     }
 }
