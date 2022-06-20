@@ -13,10 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -51,6 +48,26 @@ public class QuotationController {
     @GetMapping("/quotation")
     public ResponseEntity<?> index() {
         Iterable<Quotation> quotations = quotationRepository.findAll();
-        return new ResponseEntity<Iterable<Quotation>>(quotations, HttpStatus.OK);
+        return new ResponseEntity<>(quotations, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/quotation/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@RequestBody QuotationDTO quotationDTO, @PathVariable(name = "id") long id) {
+        Optional<Quotation> foundQuotation = quotationRepository.findById(id);
+
+        if(!foundQuotation.isPresent())
+            return new ResponseEntity<>(Collections.singletonList(String.format("Quotation with id '%d' is not found", id)),HttpStatus.NOT_FOUND);
+
+        Quotation quotation = foundQuotation.get();
+        quotation.setContent(quotationDTO.getContent());
+
+        // TODO: mover esse código para dentro do construtor (que será criado) de Quotation
+        Source source = new Source();
+        source.setId(quotationDTO.getId_source());
+        quotation.setSource(source);
+
+        Quotation quotationSaved = quotationRepository.save(quotation);
+
+        return new ResponseEntity<>(quotationSaved, HttpStatus.OK);
     }
 }
